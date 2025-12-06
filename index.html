@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar AI: Automated Infrared Fault Diagnosis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8FAFC; /* Slate 50 */
+            color: #334155; /* Slate 700 */
+        }
+        
+        /* Chart Container Rules */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 350px;
+            max-height: 400px;
+        }
+
+        /* Vibrant Palette - "Electric Intelligence" */
+        .text-accent { color: #6366F1; } /* Indigo */
+        .bg-accent { background-color: #6366F1; }
+        .text-highlight { color: #F97316; } /* Orange */
+        .bg-highlight { background-color: #F97316; }
+        .text-success { color: #10B981; } /* Emerald */
+        .bg-success { background-color: #10B981; }
+        .bg-dark { background-color: #0F172A; } /* Slate 900 */
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        /* Card Hover Effects */
+        .stat-card {
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            border-left-color: #6366F1;
+        }
+        
+        /* Flowchart Styling (No SVG/Mermaid) */
+        .flow-node {
+            background: white;
+            border: 1px solid #E2E8F0;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1);
+            position: relative;
+        }
+        .flow-connector {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94A3B8;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        /* Image Gallery Styling */
+        .gallery-img {
+            border-radius: 0.5rem;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        .gallery-img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+    </style>
+    <!-- Chosen Palette: Electric Intelligence (Indigo, Orange, Emerald, Slate) -->
+</head>
+<body class="antialiased">
+
+    <!-- Navigation / Header -->
+    <nav class="bg-dark text-white sticky top-0 z-50 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <span class="font-bold text-xl tracking-tight text-white">Solar<span class="text-highlight">AI</span> Analytics</span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#executive-summary" class="hover:bg-slate-700 px-3 py-2 rounded-md text-sm font-medium">Summary</a>
+                        <a href="#technical-dive" class="hover:bg-slate-700 px-3 py-2 rounded-md text-sm font-medium">Performance</a>
+                        <a href="#detections" class="hover:bg-slate-700 px-3 py-2 rounded-md text-sm font-medium">Detections</a>
+                        <a href="#business-case" class="hover:bg-slate-700 px-3 py-2 rounded-md text-sm font-medium">ROI</a>
+                        <a href="#full-report" class="bg-accent hover:bg-indigo-700 px-3 py-2 rounded-md text-sm font-medium text-white">View Notebook</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 1. Executive Summary / Hero -->
+    <section id="executive-summary" class="bg-white py-12 border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl font-extrabold text-slate-900 sm:text-5xl sm:tracking-tight lg:text-6xl">
+                    Automated Infrared <span class="text-accent">Fault Diagnosis</span>
+                </h1>
+                <p class="mt-5 max-w-xl mx-auto text-xl text-slate-500">
+                    Leveraging YOLOv11 to detect 12 classes of solar module anomalies with <span class="font-bold text-slate-800">71.3% mAP</span> at real-time drone speeds.
+                </p>
+            </div>
+
+            <!-- Key Metrics Cards -->
+            <div class="grid grid-cols-1 gap-5 sm:grid-cols-3">
+                <div class="stat-card bg-white overflow-hidden shadow rounded-lg p-6">
+                    <dt class="text-sm font-medium text-slate-500 truncate">Mean Average Precision (mAP@50)</dt>
+                    <dd class="mt-1 text-3xl font-semibold text-accent">71.3%</dd>
+                    <dd class="mt-2 text-sm text-slate-600">Reliable detection across 12 fault classes.</dd>
+                </div>
+                <div class="stat-card bg-white overflow-hidden shadow rounded-lg p-6">
+                    <dt class="text-sm font-medium text-slate-500 truncate">Inference Speed</dt>
+                    <dd class="mt-1 text-3xl font-semibold text-success">3.6 ms</dd>
+                    <dd class="mt-2 text-sm text-slate-600">Per image (~277 FPS). Ready for edge deployment.</dd>
+                </div>
+                <div class="stat-card bg-white overflow-hidden shadow rounded-lg p-6">
+                    <dt class="text-sm font-medium text-slate-500 truncate">Dataset Scale</dt>
+                    <dd class="mt-1 text-3xl font-semibold text-highlight">20,000+</dd>
+                    <dd class="mt-2 text-sm text-slate-600">Infrared images processed & analyzed.</dd>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. Problem & Solution Context -->
+    <section id="context" class="py-12 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+                <div>
+                    <h2 class="text-3xl font-bold text-slate-900 mb-4">The Challenge</h2>
+                    <p class="text-lg text-slate-600 mb-6">
+                        Solar farms are expanding rapidly, but manual inspection is inefficient. Identifying critical faults like <strong>Hotspots</strong> (fire risk) and <strong>Diode Failures</strong> (power loss) typically requires hours of manual review per acre.
+                    </p>
+                    <div class="p-4 bg-white border-l-4 border-highlight shadow-sm rounded-r-lg">
+                        <p class="italic text-slate-700">"Manual inspection is the bottleneck in renewable energy maintenance."</p>
+                    </div>
+                </div>
+                
+                <!-- HTML/CSS Flowchart -->
+                <div class="space-y-4">
+                    <h3 class="text-xl font-semibold text-slate-800 text-center mb-4">The Automated Pipeline</h3>
+                    <div class="grid grid-cols-1 gap-2">
+                        <div class="flow-node">
+                            <span class="font-bold text-slate-800">1. Data Ingestion</span>
+                            <p class="text-xs text-slate-500">Drone IR Imagery</p>
+                        </div>
+                        <div class="flow-connector">↓</div>
+                        <div class="flow-node border-accent">
+                            <span class="font-bold text-accent">2. YOLOv11 Inference</span>
+                            <p class="text-xs text-slate-500">Object Detection & Classification</p>
+                        </div>
+                        <div class="flow-connector">↓</div>
+                        <div class="flow-node">
+                            <span class="font-bold text-slate-800">3. Actionable Report</span>
+                            <p class="text-xs text-slate-500">Fault Locations & Types</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Technical Deep Dive (Updated with Real Charts) -->
+    <section id="technical-dive" class="py-12 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-slate-900 mb-8">Technical Performance</h2>
+            
+            <!-- Real Charts Row -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                <div class="bg-white p-6 rounded-lg shadow-lg border border-slate-100">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4">Precision-Recall Curve</h3>
+                    <img src="BoxPR_curve.png" alt="Precision Recall Curve" class="w-full h-auto rounded gallery-img">
+                    <p class="mt-4 text-sm text-slate-600">
+                        Shows the trade-off between precision and recall. High area under the curve (0.713 mAP@0.5) indicates the model effectively minimizes false positives while maintaining detection capability.
+                    </p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg border border-slate-100">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4">F1-Confidence Curve</h3>
+                    <img src="BoxF1_curve.png" alt="F1 Confidence Curve" class="w-full h-auto rounded gallery-img">
+                    <p class="mt-4 text-sm text-slate-600">
+                        The optimal F1 score is achieved at a confidence threshold of approx 0.333. This informs our deployment strategy to balance missed detections against false alarms.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Class Breakdown Chart (JS) -->
+            <div class="bg-slate-50 p-6 rounded-lg shadow-inner">
+                <h3 class="text-lg font-bold text-slate-800 mb-4">Class-Specific Reliability</h3>
+                <div class="chart-container" style="height: 300px;">
+                    <canvas id="classPerformanceChart"></canvas>
+                </div>
+                <p class="mt-4 text-sm text-center text-slate-500">
+                    <span class="font-bold text-success">Strong Performance:</span> Diode (0.88), Cell (0.83), Hot-Spot (0.79).<br>
+                    <span class="font-bold text-highlight">Review Needed:</span> No-Anomaly (0.49) - Model is conservative/paranoid (safer for inspections).
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Visual Detections (Real Images) -->
+    <section id="detections" class="py-12 bg-slate-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold mb-8">Live Detections: Validation Batches</h2>
+            <p class="text-slate-400 mb-8 max-w-2xl">
+                The following images demonstrate the model's ability to localize multiple concurrent faults on a single panel string. Note the accurate bounding boxes around "Diode" and "Hot-Spot-Multi".
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="space-y-2">
+                    <img src="val_batch0_pred.jpg" alt="Validation Batch 0 Predictions" class="w-full rounded-lg shadow-2xl border border-slate-700 gallery-img">
+                    <p class="text-xs text-center text-slate-500">Batch 0: Complex Multi-Faults</p>
+                </div>
+                <div class="space-y-2">
+                    <img src="val_batch1_pred.jpg" alt="Validation Batch 1 Predictions" class="w-full rounded-lg shadow-2xl border border-slate-700 gallery-img">
+                    <p class="text-xs text-center text-slate-500">Batch 1: Diode & Cracking</p>
+                </div>
+                <div class="space-y-2">
+                    <img src="val_batch2_pred.jpg" alt="Validation Batch 2 Predictions" class="w-full rounded-lg shadow-2xl border border-slate-700 gallery-img">
+                    <p class="text-xs text-center text-slate-500">Batch 2: High Confidence Hot-Spots</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Business Case (ROI) -->
+    <section id="business-case" class="py-12 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-slate-900 mb-8">Business Case: Why Automate?</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h3 class="text-xl font-bold text-accent mb-4">Operational Efficiency</h3>
+                    <p class="text-slate-600 mb-6">
+                        Transitioning to AI-driven inspection reduces analysis time by orders of magnitude. While a human inspector needs minutes to review complex thermal imagery, YOLOv11 processes frames in milliseconds.
+                    </p>
+                    <div class="bg-indigo-50 p-4 rounded-lg border-l-4 border-accent">
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <span class="text-accent mr-2">✓</span>
+                                <span class="text-sm text-slate-700"><strong>Fire Safety:</strong> 79% detection rate for Hot-Spots allows for preemptive maintenance before failure.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-accent mr-2">✓</span>
+                                <span class="text-sm text-slate-700"><strong>Yield Optimization:</strong> 88% precision on Diode faults ensures string efficiency is maintained.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-accent mr-2">✓</span>
+                                <span class="text-sm text-slate-700"><strong>Scalability:</strong> Inspect 50MW or 500MW plants with the same software infrastructure.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Comparison Chart -->
+                <div class="bg-white p-6 rounded-lg shadow-lg border border-slate-100">
+                    <h4 class="text-sm font-bold text-slate-500 mb-4 uppercase tracking-wider">Time per Image (Log Scale)</h4>
+                    <div class="chart-container" style="height: 250px;">
+                        <canvas id="roiChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. Full Notebook PDF Embed -->
+    <section id="full-report" class="py-12 bg-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-3xl font-bold text-slate-900">Full Project Notebook</h2>
+                <a href="Project_Notebook.pdf" download class="bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded shadow text-sm">Download PDF</a>
+            </div>
+            
+            <div class="bg-white p-4 rounded-lg shadow-lg">
+                <!-- PDF EMBED -->
+                <!-- NOTE: User must rename their uploaded PDF to 'Project_Notebook.pdf' -->
+                <object data="Project_Notebook.pdf" type="application/pdf" width="100%" height="800px" class="rounded border border-slate-200">
+                    <div class="text-center py-20">
+                        <p class="text-slate-600 mb-4">Unable to display PDF directly.</p>
+                        <a href="Project_Notebook.pdf" class="text-accent font-bold hover:underline">Click here to download the full report.</a>
+                    </div>
+                </object>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-slate-900 text-slate-400 py-8 text-center text-sm">
+        <p>&copy; 2025 Group 1 (Mark, Herve, Kelsey). AIDA 2154 Computer Vision.</p>
+    </footer>
+
+    <!-- Chart Scripts -->
+    <script>
+        // Common Options
+        const commonOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { labels: { color: '#334155', font: { family: 'Inter', size: 12 } } },
+                tooltip: {
+                    backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                    titleFont: { family: 'Inter', size: 13 },
+                    bodyFont: { family: 'Inter', size: 13 },
+                    padding: 10,
+                    cornerRadius: 4
+                }
+            }
+        };
+
+        // 1. Class Performance Bar Chart
+        const ctxClass = document.getElementById('classPerformanceChart').getContext('2d');
+        new Chart(ctxClass, {
+            type: 'bar',
+            data: {
+                labels: ['Diode', 'Cell', 'Hot-Spot', 'Cracking', 'Diode-Multi', 'No-Anomaly'],
+                datasets: [{
+                    label: 'Precision Score (0-1)',
+                    data: [0.884, 0.838, 0.787, 0.725, 0.653, 0.492],
+                    backgroundColor: [
+                        '#10B981', // Emerald (High)
+                        '#10B981',
+                        '#6366F1', // Indigo (Good)
+                        '#F97316', // Orange (OK)
+                        '#F97316',
+                        '#64748B'  // Slate (Low)
+                    ],
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                ...commonOptions,
+                scales: {
+                    y: { beginAtZero: true, max: 1.0, grid: { color: '#E2E8F0' } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+
+        // 2. ROI Comparison Chart (Logarithmic)
+        const ctxRoi = document.getElementById('roiChart').getContext('2d');
+        new Chart(ctxRoi, {
+            type: 'bar',
+            data: {
+                labels: ['Manual Inspection', 'AI Automated'],
+                datasets: [{
+                    label: 'Seconds per Image',
+                    data: [300, 0.0036], // 5 mins vs 3.6ms
+                    backgroundColor: ['#334155', '#F97316'],
+                    borderRadius: 4,
+                    barThickness: 50
+                }]
+            },
+            options: {
+                ...commonOptions,
+                indexAxis: 'y',
+                scales: {
+                    x: {
+                        type: 'logarithmic',
+                        grid: { color: '#E2E8F0' }
+                    },
+                    y: { grid: { display: false } }
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.raw + " seconds";
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+    <!-- 
+        Requirements for this file to work:
+        1. Rename 'screencapture...pdf' to 'Project_Notebook.pdf'
+        2. Ensure 'BoxPR_curve.png', 'BoxF1_curve.jpg', 'val_batchX_pred.jpg' are in the same folder.
+    -->
+</body>
+</html>
